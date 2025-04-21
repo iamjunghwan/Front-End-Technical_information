@@ -1,5 +1,5 @@
 <details>
-<summary>tanstack-query에서 stale time과 gc time의 차이점에 대해서 설명해주세요 </summary>
+<summary>🚗 tanstack-query에서 stale time과 gc time의 차이점에 대해서 설명해주세요 </summary>
 <br/>
 TanStack Query에서 `stale time`과 `gc time`은 데이터를 캐싱하고 관리하는 데 중요한 두 가지 설정입니다. 먼저 요약해서 말씀 드려보자면, `stale time`은 **데이터가 얼마나 오래 '신선한 상태'로 유지되는지**를 정하는 시간이고, `gc time`은 **데이터가 오래된 상태가 된 이후에도 캐시에서 얼마 동안 유지될지**를 정하는 시간입니다.
 
@@ -13,7 +13,7 @@ TanStack Query에서 `stale time`과 `gc time`은 데이터를 캐싱하고 �
 <br/>
 
 <details>
-<summary>리액트의 props와 state에 대해서 설명해주세요.</summary>
+<summary>🫧 리액트의 props와 state에 대해서 설명해주세요.</summary>
 <br/>
 `props`는 부모 컴포넌트가 자식 컴포넌트에 전달하는 데이터입니다. props는 읽기 전용으로, 자식 컴포넌트는 props를 수정할 수 없습니다.
 
@@ -44,7 +44,7 @@ props는 **읽기 전용**이기 때문에, 부모 컴포넌트에서 전달된
 <br/>
 
 <details>
-<summary> 리액트의 Controlled Component와 Uncontrolled Component의 차이점에 대해서 설명해주세요. </summary>
+<summary>🚧 리액트의 Controlled Component와 Uncontrolled Component의 차이점에 대해서 설명해주세요. </summary>
 <br/>
 `Controlled Component`는 리액트 상태(state)를 통해 입력값을 제어하는 컴포넌트를 말합니다. 이 방식에서는 입력 요소의 값(value)을 리액트 상태와 동기화하고, 사용자가 입력을 변경할 때마다 onChange 이벤트 핸들러를 통해 상태를 업데이트합니다. useState를 활용한 input value를 제어하는 상황을 예시로 들 수 있습니다. value는 리액트 상태로 관리되며, onChange 이벤트가 발생할 때마다 상태가 업데이트됩니다. **Controlled Component의 주요 장점은 입력값이 리액트의 상태로 관리되므로, 입력값을 쉽게 검증하고, 변경할 수 있으며, 복잡한 폼 로직을 처리하는 데 유리**하다는 것입니다.
 
@@ -62,7 +62,7 @@ ref를 사용하면 DOM을 통해 직접 접근하여 값을 읽어오기때문�
 <br/>
 
 <details>
-<summary>  리액트에서 성능 최적화를 위한 방법들을 설명해주세요. </summary>
+<summary>🚑 리액트에서 성능 최적화를 위한 방법들을 설명해주세요. </summary>
 <br/>
 리액트에서 성능 최적화를 위해 여러 가지 방법을 사용할 수 있는데요. 대표적으로 메모이제이션을 말씀 드릴 수 있겠습니다.
 
@@ -82,7 +82,7 @@ ref를 사용하면 DOM을 통해 직접 접근하여 값을 읽어오기때문�
 <br/>
 
 <details>
-<summary>  리액트의 Strict Mode에 대해서 설명해주세요. </summary>
+<summary>💥 리액트의 Strict Mode에 대해서 설명해주세요. </summary>
 <br/>
 리액트에서 `StrictMode`는 주로 개발 중에 발생할 수 있는 잠재적인 문제를 사전에 감지하고 예방하기 위해 사용됩니다. 몇 가지 주요 목적이 있습니다.
 
@@ -100,7 +100,7 @@ ref를 사용하면 DOM을 통해 직접 접근하여 값을 읽어오기때문�
 <br/>
 
 <details>
-<summary>  리액트의 render phase와 commit phase에 대해서 설명해주세요. </summary>
+<summary>🐣 리액트의 render phase와 commit phase에 대해서 설명해주세요. </summary>
 <br/>
 리액트의 렌더링 과정은 크게 두 가지 단계로 나눌 수 있습니다. `render phase`와 `commit phase`입니다.
 

@@ -1,5 +1,5 @@
 <details>
-<summary>reflow와 repaint의 차이점에 대해서 설명해주세요.</summary>
+<summary>👨‍🎨 reflow와 repaint의 차이점에 대해서 설명해주세요.</summary>
 <br/>
 reflow와 repaint는 웹 페이지가 렌더링 되는 과정에서 발생하는 중요한 작업들입니다.
 먼저, reflow에 관해 설명하겠습니다. reflow는 브라우저가 페이지의 레이아웃을 다시 계산하는 과정을 말합니다. DOM의 구조가 변경되거나 CSS 스타일이 변경되면, 브라우저는 각 요소가 화면에 어떻게 배치될지 다시 계산해야 합니다. 이 과정은 모든 자식 요소와 관련된 부모 요소까지 영향을 주기 때문에 비용이 많이 드는 작업입니다. 예를 들어, CSS에서 요소의 width나 height 속성을 변경하면, 브라우저는 해당 요소뿐만 아니라 연관된 모든 요소의 배치를 다시 계산해야 합니다.
@@ -16,7 +16,7 @@ width, height, margin, padding, border 등의 속성은 요소의 레이아웃�
 <br/>
 
 <details>
-<summary>브라우저 렌더링 파이프라인에 대해서 설명해주세요.   </summary>
+<summary>📈 브라우저 렌더링 파이프라인에 대해서 설명해주세요.   </summary>
 <br/>
 브라우저가 웹 페이지를 화면에 표시하기 위해 거치는 과정을 브라우저 렌더링 파이프라인이라고 합니다. 이 과정은 크게 5단계로 나눌 수 있습니다.
 
@@ -60,7 +60,7 @@ transform과 opacity와 같은 속성은 레이아웃이나 페인트 과정을 
 <br/>
 
 <details>
-<summary>인터넷 창에 www.google.com를 입력하면 무슨 일이 일어나는지 설명해주세요.   </summary>
+<summary>💻 인터넷 창에 www.google.com를 입력하면 무슨 일이 일어나는지 설명해주세요.   </summary>
 <br/>
 첫번째로 **DNS 조회**가 일어납니다. 사용자가 "[www.google.com"을](http://www.google.xn--com"-jy1s/) 입력하면, 브라우저는 먼저 이 도메인 이름을 IP 주소로 변환해야 합니다. 이 과정을 DNS 조회(DNS Lookup)라고 합니다. 브라우저는 캐시된 DNS 기록을 먼저 확인하고, 없으면 로컬 DNS 서버에 요청하여 "[www.google.com"에](http://www.google.xn--com"-eg0s/) 해당하는 IP 주소를 얻습니다.
 
