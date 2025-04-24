@@ -318,3 +318,80 @@ React 컴포넌트 설계 시에는 다음과 같은 사항들을 고려해야 �
 
 </details>
 <br/>
+
+<details>
+<summary>❓ useRef는 언제 사용하나요?</summary>
+<br/>
+`useRef()`는 React의 훅 중 하나로, **컴포넌트 내에서 변경 가능한 값을 저장하고 관리**할 수 있게 해줍니다. `useRef()`는 주로 두 가지 목적에 사용됩니다. **DOM 요소에 접근하거나, 값을 유지하면서도 렌더링을 트리거하지 않기 위해** 사용됩니다.
+
+첫째, `useRef()`는 **DOM 요소에 접근할 때** 사용됩니다. 예를 들어, 특정 DOM 요소에 직접 접근하고 싶을 때 `useRef()`를 사용하여 해당 요소의 참조를 얻을 수 있습니다. 이는 `useEffect()`나 이벤트 핸들러 내에서 해당 DOM 요소에 직접 작업을 수행할 때 유용합니다. 예를 들어, 입력 필드에 포커스를 설정하고 싶을 때, `useRef()`를 사용해 input 요소에 접근할 수 있습니다.
+
+```jsx
+const inputRef = useRef(null);
+
+useEffect(() => {
+  inputRef.current.focus(); // 컴포넌트 마운트 시 input에 포커스를 맞춘다.
+}, []);
+
+return <input ref={inputRef} />;
+```
+
+둘째, **useRef는 값을 유지하면서도 렌더링을 트리거하지 않기 위해** 사용됩니다. 일반적으로 상태 값을 관리할 때 사용하는 `useState()`는 상태 변화가 리렌더링을 트리거하는 반면, `useRef()`는 값이 변경되어도 리렌더링을 트리거하지 않습니다. 예를 들어, 타이머 id를 추적할 때 `useRef()`를 사용할 수 있습니다.
+
+```jsx
+const timerRef = useRef(null);
+
+const startTimer = () => {
+  timerRef.current = setInterval(() => {
+    console.log("타이머 실행");
+  }, 1000);
+};
+
+const stopTimer = () => {
+  clearInterval(timerRef.current); // 타이머를 정지한다.
+};
+```
+
+위 예시에서 `useRef()`를 이용하여 타이머의 id를 추적하면서도 해당 상태 값이 업데이트될 때 컴포넌트를 리렌더링하지 않습니다.
+
+</details>
+<br/>
+
+<details>
+<summary>🛜 Server Action이란 무엇인가요?</summary>
+<br/>
+Server Action은 Next.js에서 제공하는 기능으로, **서버에서 실행되며 브라우저에서 호출할 수 있는 비동기 함수**입니다. 이 기능은 서버 로직을 직접 호출함으로써 클라이언트와 서버 간의 상호작용을 간소화할 수 있게 해줍니다. 예를 들면 백엔드 서버와 API 통신을 하는 대신 Next 서버에서 데이터베이스에 직접 접근하는 식으로 활용할 수 있습니다.
+
+### **사용 방법**
+
+Server Action은 `use server` 디렉티브를 사용하여 정의할 수 있습니다. 이 디렉티브는 함수가 서버에서만 실행되도록 지정합니다.
+
+```tsx
+"use server";
+
+export async function createReviewAction(data: FormData) {
+  const content = data.get("content");
+  // 데이터베이스 저장 등의 작업
+}
+```
+
+```tsx
+// 컴포넌트에서 사용
+<form action={createReviewAction}>
+  <textarea name="content" required />
+  <button type="submit">Submit</button>
+</form>
+```
+
+이처럼 Server Action을 이용하면 폼이 제출될 때 해당 정보를 가지고 데이터베이스 저장과 같은 서버 작업을 수행할 수 있습니다.
+
+## **Server Action의 장점은 무엇인가요? 🤔**
+
+첫째, **클라이언트와 서버 간 상호작용을 간소화할 수 있습니다**. 기존에는 데이터베이스와 관련된 처리를 위해 백엔드 API와 통신하는 방식을 사용했습니다. 만약 Server Action을 이용한다면 백엔드 API와 통신하지 않고, Next 서버에서 직접 데이터베이스 작업을 수행할 수 있습니다. 이러한 점은 개발 생산성 향상에 도움이 될 수 있습니다. 또한 네트워크 통신을 줄여 성능 면에서도 이점이 있을 수 있습니다.
+
+둘째, **Server Action 로직은 클라이언트에 전송되지 않습니다**. 이는 보안에 도움이 될 수 있습니다. 외부에 노출되면 안 되는 정보나 로직을 숨기는 데 활용할 수 있습니다. 더불어 클라이언트 단의 일부 로직을 Server Action으로 옮긴다면 번들의 크기가 줄어드는 데도 기여할 수 있습니다.
+
+셋째, **JS가 로드되기 이전의 시점에도 서버와 상호작용할 수 있게 됩니다**. Server Action은 html `<form>`의 `action` 속성을 이용하여 폼 데이터를 서버에 전송합니다. 따라서 JS가 로드되지 않거나 비활성화되어도 서버와 통신이 가능하다는 장점이 있습니다.
+
+</details>
+<br/>

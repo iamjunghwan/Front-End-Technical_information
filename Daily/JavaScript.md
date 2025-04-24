@@ -479,3 +479,211 @@ class Foo {
 
 </details>
 <br/>
+
+<details>
+<summary>🐣 자바스크립트에서 생성자 함수가 무엇인지, class 문법은 왜 도입되었는지 설명해주세요.
+ </summary>
+<br/>
+생성자 함수가 무엇인가요?
+자바스크립트에서 생성자 함수는 객체를 생성하는 하나의 방법입니다. 일반적으로 function 키워드를 사용하여 정의하며, new 키워드와 함께 호출할 경우 새로운 객체가 만들어집니다. 생성자 함수 내부에서 this 키워드는 새롭게 생성된 객체를 가리키며, 여기에 속성을 추가하면 해당 객체에 저장됩니다.
+
+예를 들어, 다음과 같은 방식으로 생성자 함수를 사용할 수 있습니다.
+
+function Person(name, age) {
+this.name = name;
+this.age = age;
+}
+
+Person.prototype.greet = function() {
+console.log(`안녕하세요, 저는 ${this.name}입니다.`);
+};
+
+const person1 = new Person('Alice', 25);
+class 문법은 왜 도입되었나요? 🤔
+생성자 함수는 유지보수성이 떨어진다는 문제가 있습니다. 우선, 명확한 클래스 개념이 없기 때문에 상속을 구현할 때 프로토타입 체인을 이용해야 하는데, 이는 가독성이 좋지 않습니다. 다른 객체지향 언어와 형태가 많이 다르기 때문에 이해하기 비교적 어렵기도 합니다. 또한 new 키워드 없이 일반 함수처럼 호출될 수도 있어 혼동을 유발합니다.
+
+이러한 단점을 극복하기 위해 class 문법이 등장했습니다. class를 사용하면 객체를 생성하는 코드를 더욱 직관적으로 작성할 수 있습니다. 예시와 함께 설명드리겠습니다.
+
+class Person {
+constructor(name, age) {
+this.name = name;
+this.age = age;
+}
+
+greet() {
+console.log(`안녕하세요, 저는 ${this.name}입니다.`);
+}
+}
+
+const person2 = new Person('Bob', 30);
+이처럼 class를 사용하면 생성자와 메서드를 명확하게 정의할 수 있습니다. 또한 다른 객체지향 언어의 문법과 유사한 형태여서 이해하기 쉽습니다. extends, super를 이용하여 상속을 간결하게 구현할 수 있고, static, getter/setter 등 객체지향 관련 키워드를 지원하기도 합니다. 또한, 생성자 함수와 달리 일반 함수처럼 호출할 수 없도록 하는 제약이 추가됩니다.
+
+</details>
+<br/>
+
+<details>
+<summary>🛜 프로토타입 상속의 동작 방식에 대해 설명해주세요.</summary>
+<br/>
+프로토타입은 자바스크립트에서 객체 간의 상속을 구현하는 메커니즘입니다. 자바스크립트의 모든 객체는 기본적으로 `[[Prototype]]`이라는 숨김 프로퍼티를 가지고 있으며, 이 프로퍼티는 다른 객체를 참조하거나 `null` 값을 가집니다. 프로토타입 연결은 `Object.create()`나 함수 생성자의 `prototype` 프로퍼티를 통해 이루어집니다.
+
+**프로토타입 상속이 동작하는 방식은 프로토타입 체인을 기반**으로 합니다. 객체에서 어떤 프로퍼티를 접근하려고 할 때, 자바스크립트 엔진은 해당 객체에서 프로퍼티를 찾습니다. 그리고 만약 찾을 수 없다면, 객체의 `[[Prototype]]`이 가리키는 프로토타입 객체에서 프로퍼티를 탐색합니다. 만약 프로토타입 객체에서도 해당 프로퍼티를 찾지 못하면, 그 다음에는 프로토타입의 프로토타입을 탐색합니다. 탐색 과정을 계속 반복하면서 결국 원하는 프로퍼티를 찾거나, 프로토타입이 `null`이 되는 단계에 도달할 때까지 프로토타입 체인을 타고 올라가는 방식으로 탐색합니다. 이런 식으로 프로토타입이 꼬리에 꼬리를 물고 연결된 형태를 두고 **프로토타입 체인**이라고 부르는 것입니다.
+
+### **예시 코드**
+
+```
+// 1) Object.create()를 이용한 방식
+const dog = {
+  greet() {
+    console.log('Hello from dog!');
+  }
+};
+
+const maru = Object.create(dog); // maru의 프로토타입이 dog로 설정됨
+maru.greet(); // "Hello from dog!" 출력
+
+```
+
+```
+// 2) prototype 프로퍼티를 이용한 방식
+function Dog() {}
+Dog.prototype.greet = function () {
+  console.log('Hello from Dog!');
+};
+
+const maru = new Dog(); // maru의 프로토타입이 dog로 설정됨
+maru.greet(); // "Hello from Dog!" 출력
+
+```
+
+객체 `maru`가 `dog`를 프로토타입으로 갖는다고 가정해봅시다. 만약 `maru.greet()`을 호출했을 시 `maru`에 `greet()`이 없으면 프로토타입인 `dog`에 `greet()`이 존재하는지 탐색합니다. 이때 `dog`에 `greet()`이 존재하면 탐색을 멈추고 해당 메서드를 호출합니다. 만약 `dog`에도 존재하지 않는다면 프로토타입 체인의 끝에 도달할 때까지 상위 프로토타입을 계속 탐색해 나갑니다.
+
+</details>
+<br/>
+
+<details>
+<summary>😁 상황에 따라 this 바인딩이 어떻게 이뤄지는지 설명해주세요.</summary>
+<br/>
+자바스크립트에서 **`this`는 함수가 호출되는 방식에 따라 값이 달라집니다**. 다양한 상황에서 `this`가 어떻게 바인딩되는지 크게 6가지 상황으로 나누어 설명드리겠습니다.
+
+### **1. 전역 호출**
+
+전역에서 함수가 호출되면, **`this`는 전역 객체를 참조합니다**. 브라우저 환경에서는 `window` 객체를, Node.js 환경에서는 `global` 객체를 가리킵니다.
+
+```
+function globalFunc() {
+  console.log(this);
+}
+globalFunc(); // 브라우저: window, Node.js: global
+
+```
+
+### **2. 메서드 호출**
+
+객체의 메서드로 호출된 함수에서는 **`this`가 해당 객체를 참조합니다**.
+
+```
+const obj = {
+  name: "Alice",
+  greet: function () {
+    console.log(this.name);
+  },
+};
+obj.greet(); // "Alice"
+
+```
+
+### **3. 생성자 함수와 클래스**
+
+생성자 함수나 클래스에서 `this`는 **새로 생성되는 객체, 즉 인스턴스를 참조합니다**.
+
+```
+function Person(name) {
+  this.name = name;
+}
+const person = new Person("Alice");
+console.log(person.name); // "Alice"
+
+```
+
+### **4. 명시적 바인딩**
+
+`call()`, `apply()`, `bind()` 메서드를 사용하면 **`this`를 명시적으로 설정할 수 있습니다**.
+
+```
+function greet() {
+  console.log(this.name);
+}
+const user = { name: "Alice" };
+greet.call(user); // "Alice"
+
+```
+
+### **5. 화살표 함수**
+
+화살표 함수는 **상위 스코프의 `this`를 상속받습니다**. 자체적인 `this`를 가지지 않으므로, 사용 위치에 따라 `this`가 결정됩니다.
+
+```
+const obj = {
+  name: "Alice",
+  greet: () => console.log(this.name),
+};
+obj.greet(); // undefined (전역 `this`)
+
+```
+
+### **6. DOM 이벤트 핸들러**
+
+DOM 요소의 이벤트 핸들러에서 **`this`는 기본적으로 이벤트를 발생시킨 요소를 참조합니다**. 하지만 화살표 함수를 사용하면 상위 스코프의 `this`를 참조합니다.
+
+```
+button.addEventListener("click", function () {
+  console.log(this); // 클릭된 button 요소
+});
+
+```
+
+지금까지 설명드린 것과 같이 **`this`는 함수 호출 방식에 따라 값이 달라집니다**. 따라서 상황에 따른 동작을 이해하고 적절한 방식을 사용해야 합니다. 특히, 화살표 함수와 명시적 바인딩은 `this`를 제어하는 데 유용합니다.
+
+</details>
+<br/>
+
+<details>
+<summary>다음 JS 코드의 실행 결과를 설명해주세요.</summary>
+<br/>
+
+```
+function change(a, b, c) {
+    a = 'a changed'
+    b = { b: 'changed' };
+    c.c = 'changed';
+}
+
+let a = 'a unchanged';
+let b = { b: 'unchanged' };
+let c = { c: 'unchanged' };
+
+change(a, b, c);
+
+console.log(a, b, c); // ?
+```
+
+자바스크립트는 **Call by Value 방식**으로 매개변수를 전달합니다. 이는 함수 매개변수에 **값의 복사본**이 전달된다는 의미입니다. 이로 인해 다음과 같은 결과가 나타납니다.
+
+### **1. a (문자열)**
+
+`a`는 문자열입니다. 문자열 값의 복사본이 파라미터에 전달되므로, 함수 내에서 값이 변경되어도 호출한 곳의 변수에는 영향을 미치지 않습니다.
+
+따라서 호출한 곳의 `a`는 여전히 `'a unchanged'`로 유지됩니다.
+
+### **2. b (객체)**
+
+`b`는 객체입니다. 원본 객체의 참조 값(주소)의 복사본이 파라미터에 전달됩니다. `b = { b: 'changed' }`와 같이 객체를 새롭게 할당하면, 해당 복사본이 가리키는 참조 값이 새로운 객체의 참조 값으로 변경됩니다. 이로 인해 함수 내의 복사본 `b`는 `b = { b: 'changed' }`의 참조 값을 가리키게 되지만, 함수 외부의 `b`는 여전히 `{ b: 'unchanged' }`로 유지됩니다.
+
+### **3. c (객체)**
+
+`c`는 객체입니다. 원본 객체의 참조 값의 복사본이 파라미터에 전달됩니다. 함수 내부와 외부의 변수가 모두 동일한 참조 값을 가리키고 있으므로, 함수 내부에서 객체의 속성을 변경하면 호출한 곳의 객체에도 영향을 미칩니다.
+
+`c.c = 'changed'`는 c 객체의 속성을 변경한 것이므로, 호출한 곳의 c 객체는 `{ c: 'changed' }`로 변경됩니다.
+
+</details>
+<br/>
