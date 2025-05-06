@@ -691,16 +691,17 @@ console.log(a, b, c); // ?
 <details>
 <summary>🔗 커링(currying)이란 무엇인가요? </summary>
 <br/>
-
 커링이란, 여러 개의 인자를 받는 함수를 단일 인자를 받는 함수들의 함수열로 바꾸는 기법입니다. 다시 말해, 여러 개의 인자를 한번에 받지 않고, 하나씩 여러 차례 받는 형태로 변환합니다.
 
+```
 function add(a) {
-return function(b) {
-return a + b;
-};
+  return function(b) {
+    return a + b;
+  };
 }
 
 add(2)(3); // 5
+```
 
 const addTwo = add(2)
 addTwo(3); // 5
@@ -709,13 +710,17 @@ addTwo(3); // 5
 커링의 장점은 무엇인가요?
 먼저, 커링을 적용하면 코드의 재사용성이 증가합니다. 예시를 들어 설명드리겠습니다.
 
+```
 // ❌ 커링 미적용
 const numbers = [10, 20, 30, 40, 50]
 
 const greaterThan30 = numbers.filter(n => n > 30)
 const greaterThan20 = numbers.filter(n => n > 20)
+```
+
 위와 같은 코드에 커링을 적용하면 아래와 같이 재사용성을 개선할 수 있습니다.
 
+```
 // ✅ 커링 적용
 const isGreaterThan = (min: number) => (value: number) => value > min
 
@@ -723,23 +728,27 @@ const numbers = [10, 20, 30, 40, 50]
 
 const greaterThan30 = numbers.filter(isGreaterThan(30))
 const greaterThan20 = numbers.filter(isGreaterThan(20))
+```
+
 또한, 커링을 적용하면 함수 합성이 쉬워집니다. 함수형 프로그래밍에서 함수 합성을 위해 compose()나 pipe()와 같은 함수를 활용하는데요. 이때 커링을 적용하면 단일 인자 함수로 변환할 수 있기 때문에 compose()나 pipe()에 끼워 넣어 활용할 수 있습니다.
 
+```
 const add = a => b => a + b;
 
-const square = x => x \* x;
+const square = x => x * x;
 const toString = x => x.toString();
 
 const pipe = (...fns) => input =>
-fns.reduce((acc, fn) => fn(acc), input);
+  fns.reduce((acc, fn) => fn(acc), input);
 
 const process = pipe(
-add(2),
-square,
-toString
+  add(2),
+  square,
+  toString
 );
 
 console.log(process(3)); // "25"
+```
 
 </details>
 <br/>
