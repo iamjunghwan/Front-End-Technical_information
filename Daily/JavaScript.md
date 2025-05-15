@@ -795,3 +795,48 @@ for (const item of customIterable) {
 
 </details>
 <br/>
+
+<details>
+<summary>🤚 제네레이터에 대해 설명해주세요.  </summary>
+<br/>
+제네레이터(Generator)는 자바스크립트에서 반복 가능한 데이터를 만들거나, 실행 흐름을 중간에 멈췄다가 다시 이어서 실행할 수 있게 해주는 특수한 함수입니다. 일반 함수와 다르게 function* 키워드로 정의하며, 내부에서 yield 키워드를 사용해 값을 순차적으로 반환합니다.
+
+제네레이터 함수는 실행하면 즉시 코드가 실행되지 않고, 대신 이터레이터 객체를 반환합니다. 이 이터레이터는 next() 메서드를 통해 하나씩 값을 꺼낼 수 있으며, yield 지점에서 멈췄다가, 다음 next() 호출 시 그 지점부터 다시 실행됩니다.
+
+```
+function* myGenerator() {
+  yield 1;
+  yield 2;
+  yield 3;
+}
+
+const gen = myGenerator();
+console.log(gen.next()); // { value: 1, done: false }
+console.log(gen.next()); // { value: 2, done: false }
+console.log(gen.next()); // { value: 3, done: false }
+console.log(gen.next()); // { value: undefined, done: true }
+```
+
+제네레이터의 가장 큰 특징은 함수의 실행 상태를 보존하면서 여러 번 호출할 수 있다는 점입니다. 이 덕분에 데이터를 지연 평가하거나 복잡한 반복 로직, 커스텀 이터러블 등을 구현할 때 유용하게 사용됩니다.
+
+### 제네레이터를 실제로 유용하게 활용한 예시를 들어줄 수 있나요? 🤔
+
+예를 들어, 제네레이터를 활용하면, 배열에서 조건에 맞는 값만 순회하고 싶을 때 조건 필터링을 포함한 이터러블을 만들 수 있습니다.
+
+```
+function* validNumbers(numbers) {
+  for (const num of numbers) {
+    if (typeof num === "number" && !isNaN(num)) {
+      yield num;
+    }
+  }
+}
+
+const mixed = [1, "a", 2, NaN, 3];
+for (const n of validNumbers(mixed)) {
+  console.log(n); // 1, 2, 3
+}
+```
+
+</details>
+<br/>
