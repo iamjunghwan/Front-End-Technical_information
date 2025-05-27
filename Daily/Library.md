@@ -425,11 +425,11 @@ export async function createReviewAction(data: FormData) {
 
 예를 들어, 하나의 이벤트 핸들러 내에서 여러 번 상태를 업데이트하는 경우, 리액트는 이를 내부적으로 모아서 한 번의 업데이트로 처리합니다.
 
-```
+```jsx
 function handleClick() {
-  setCount(c => c + 1); // 첫 번째 업데이트
-  setFlag(f => !f);     // 두 번째 업데이트
-  setName('리액트');     // 세 번째 업데이트
+  setCount((c) => c + 1); // 첫 번째 업데이트
+  setFlag((f) => !f); // 두 번째 업데이트
+  setName("리액트"); // 세 번째 업데이트
   // 이 세 가지 상태 변경은 배칭되어 단 한 번의 렌더링만 발생합니다
 }
 ```
@@ -443,16 +443,16 @@ React 18 이전에는 이벤트 핸들러 내부와 같은 리액트가 제어�
 React 18의 자동 배칭(Automatic Batching)이 이전 버전과 어떻게 다른가요? 🤔
 React 18 이전에는 배칭이 React의 이벤트 핸들러 내부에서만 작동했습니다.
 
-```
+```jsx
 // React 17에서:
 function handleClick() {
-  setCount(c => c + 1); // 이벤트 핸들러 내부: 배칭 적용됨
-  setFlag(f => !f);     // 배칭 적용됨 (한 번의 렌더링)
+  setCount((c) => c + 1); // 이벤트 핸들러 내부: 배칭 적용됨
+  setFlag((f) => !f); // 배칭 적용됨 (한 번의 렌더링)
 }
 
 setTimeout(() => {
-  setCount(c => c + 1); // React 외부 환경: 배칭 적용 안됨
-  setFlag(f => !f);     // 배칭 적용 안됨 (두 번의 렌더링 발생)
+  setCount((c) => c + 1); // React 외부 환경: 배칭 적용 안됨
+  setFlag((f) => !f); // 배칭 적용 안됨 (두 번의 렌더링 발생)
 }, 1000);
 ```
 
@@ -482,7 +482,7 @@ React의 리렌더링 과정은 크게 Trigger, Render, Commit이라는 세 단�
 
 아니요. React의 auto batching 기능으로 인해, 여러 개의 상태 변경이 자동으로 하나의 batch로 묶여서 처리됩니다.
 
-```
+```jsx
 function App() {
   const [a, setA] = useState(0);
   const [b, setB] = useState(0);
@@ -495,6 +495,75 @@ function App() {
   return <button onClick={handleClick}>Click</button>;
 }
 ```
+
+</details>
+<br/>
+
+<details>
+<summary>⚛️ 리액트 코드의 실행 순서 </summary>
+<br/>
+
+```jsx
+import { useState, useEffect } from "react";
+
+function Parent() {
+  const [count, setCount] = useState(0);
+
+  console.log("1");
+
+  useEffect(() => {
+    console.log("2");
+    return () => {
+      console.log("3");
+    };
+  }, [count]);
+
+  return (
+    <div>
+      <p>카운트: {count}</p>
+      <button onClick={() => setCount((prev) => prev + 1)}>+1</button>
+      <Child value={count} />
+    </div>
+  );
+}
+
+function Child({ value }) {
+  console.log("4");
+
+  useEffect(() => {
+    console.log("5");
+    return () => {
+      console.log("6");
+    };
+  }, []);
+
+  return <p>자식 값: {value}</p>;
+}
+
+export default Parent;
+```
+
+## 최초 마운트 시
+
+`1 -> 4 -> 5 -> 2`
+
+- `Parent` 함수가 실행되면서 `"1"`이 출력됩니다.
+- `Parent` 실행 도중 내부의 `Child` 함수가 호출되므로 `"4"`가 출력됩니다.
+- 이후, 마운트 후 실행되는 `useEffect` 콜백들이 실행됩니다. 먼저 `Child`의 `useEffect` 콜백이 실행되어 `"5"`가 출력됩니다.
+- 이어서 `Parent`의 `useEffect` 콜백이 실행되어 "2"가 출력됩니다
+
+## 버튼 클릭 시
+
+`1 -> 4 -> 3 -> 2`
+
+사용자가 버튼을 클릭하면 `setCount`를 통해 `count` 상태가 변경되고, `Parent` 컴포넌트가 다시 렌더링됩니다. 이때 `console.log`의 흐름은 다음과 같습니다.
+
+- `Parent` 함수가 다시 실행되어 `"1"`이 출력됩니다.
+- `Parent` 내부 `Child` 함수도 다시 실행되어 `"4"`가 출력됩니다.
+- 그후 `Parent`의 `useEffect` 콜백이 실행되기 전에 cleanup 함수가 먼저 호출되어 `"3"`이 출력됩니다.
+- 그런 다음 `Parent`의 `useEffect` 콜백이 다시 실행되며 `"2"`가 출력됩니다.
+
+`Child`의 `useEffect`는 빈 배열을 의존성으로 가지고 있으므로 처음 마운트될 때만 실행되고, 리렌더시에는 실행되지 않습니다. 따라서 `"5"`이나 `"6"`은 출력되지 않습니다.
 
 </details>
 <br/>
