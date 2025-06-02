@@ -336,7 +336,7 @@ Yarn Berry는 모든 의존성을 `.yarn/cache` 폴더에 압축된 형태로 �
 
 ## 예시
 
-`
+```
 jobs:
 build:
 runs-on: ubuntu-latest
@@ -345,8 +345,8 @@ steps: - uses: actions/checkout@v2 - uses: actions/setup-node@v2 - run: yarn tes
 # 기존 방식
 
 - run: yarn install #이 단계가 필요
-- run: yarn test  
-  `
+- run: yarn test
+```
 
 그리하여 CI/CD에서 yarn install 단계가 생략되어 빌드 시간이 크게 단축되고, 모든 개발자와 CI 환경에서 정확히 동일한 의존성을 사용할 수 있습니다.
 <br/>
